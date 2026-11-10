@@ -3,38 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f6f5f0">
     <title>AI-Based Fake Document Screening System</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <main class="page-container">
-        <section class="card upload-card">
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="AI-Based Fake Document Screening System home">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M6.5 3.75h7l4 4v12.5H6.5a1 1 0 0 1-1-1V4.75a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                        <path d="M13.5 4v4h4M8.5 12h7M8.5 15.5h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <span>AI-Based Fake Document Screening System</span>
+            </a>
+            <nav class="site-nav" aria-label="Main navigation">
+                <a class="nav-link" href="/" aria-current="page">New screening</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="upload-layout">
+        <section class="intro-column" aria-labelledby="page-title">
             <p class="eyebrow">Academic document screening</p>
-            <h1>AI-Based Fake Document Screening System</h1>
-            <p class="intro">
-                Upload an academic marksheet image for an initial review of signs
-                that may need further verification.
+            <h1 id="page-title">Verify before you trust.</h1>
+            <p class="intro-copy">
+                Screen academic marksheet images for possible signs of manipulation.
+                Review the findings as a starting point for closer verification.
             </p>
 
-            <form action="/upload" method="POST" enctype="multipart/form-data">
-                <label for="file">Choose a marksheet image</label>
-                <input
-                    type="file"
-                    id="file"
-                    name="file"
-                    accept=".jpg,.jpeg,.png,image/jpeg,image/png"
-                    required
-                >
-                <p class="field-help">Supported formats: JPG, JPEG and PNG.</p>
-                <button type="submit" class="button">Screen Document</button>
+            <ol class="process-list" aria-label="Screening process">
+                <li>
+                    <span class="process-number">01</span>
+                    <span>Upload your marksheet</span>
+                </li>
+                <li>
+                    <span class="process-number">02</span>
+                    <span>Image and text analysis</span>
+                </li>
+                <li>
+                    <span class="process-number">03</span>
+                    <span>Review screening results</span>
+                </li>
+            </ol>
+
+            <p class="screening-note">
+                <span class="note-rule" aria-hidden="true"></span>
+                An initial screening aid—not definitive proof of fraud.
+            </p>
+        </section>
+
+        <section class="upload-workspace" aria-labelledby="upload-title">
+            <div class="workspace-heading">
+                <div>
+                    <p class="workspace-kicker">New review</p>
+                    <h2 id="upload-title">Upload a marksheet</h2>
+                </div>
+                <span class="file-format-note">JPG · JPEG · PNG</span>
+            </div>
+
+            <form id="upload-form" action="/upload" method="POST" enctype="multipart/form-data">
+                <label class="drop-area" id="drop-area" for="file">
+                    <input
+                        class="visually-hidden"
+                        type="file"
+                        id="file"
+                        name="file"
+                        accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                        aria-label="Choose a JPG, JPEG, or PNG marksheet image"
+                        aria-describedby="file-guidance file-message"
+                        required
+                    >
+                    <svg class="upload-illustration" viewBox="0 0 88 76" fill="none" aria-hidden="true">
+                        <path d="M20 8.5h31l17 17v38a4 4 0 0 1-4 4H20a4 4 0 0 1-4-4v-51a4 4 0 0 1 4-4Z" fill="#F5F8F8" stroke="#718B98" stroke-width="1.7" stroke-linejoin="round"/>
+                        <path d="M50 9v17h17" stroke="#718B98" stroke-width="1.7" stroke-linejoin="round"/>
+                        <path d="M32 46v-13m0 0-5 5m5-5 5 5m7-1h12m-12 6h12" stroke="#167C78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M27 56h24" stroke="#C7D3D5" stroke-width="1.7" stroke-linecap="round"/>
+                    </svg>
+                    <span class="drop-title">Drag and drop your marksheet</span>
+                    <span class="drop-help">or choose an image from your device</span>
+                    <span class="browse-button">Browse files</span>
+                    <span class="file-types" id="file-guidance">JPG, JPEG or PNG · Clear images work best</span>
+                </label>
+
+                <p class="file-message" id="file-message" role="status" aria-live="polite"></p>
+
+                <div class="preview-row" id="preview-row" hidden>
+                    <img class="image-preview" id="image-preview" alt="Preview of the selected marksheet">
+                    <div class="preview-info">
+                        <span class="preview-label">Selected document</span>
+                        <span class="selected-filename" id="selected-filename"></span>
+                    </div>
+                    <button class="remove-button" id="remove-file" type="button">Remove</button>
+                </div>
+
+                <button class="primary-button" id="submit-button" type="submit" disabled>
+                    Screen Document
+                    <span aria-hidden="true">→</span>
+                </button>
             </form>
 
-            <p class="disclaimer">
-                <strong>Disclaimer:</strong> This is preliminary screening only
-                and is not proof of fraud. Results should be reviewed by a
-                qualified person.
+            <p class="workspace-footnote">
+                Files are submitted for preliminary screening. The result should
+                not be treated as an independent finding of fraud.
             </p>
         </section>
     </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>AI-Based Fake Document Screening System</span>
+            <span>Academic project · Preliminary screening aid</span>
+        </div>
+    </footer>
+
+    <script>
+        const fileInput = document.getElementById("file");
+        const uploadForm = document.getElementById("upload-form");
+        const dropArea = document.getElementById("drop-area");
+        const previewRow = document.getElementById("preview-row");
+        const imagePreview = document.getElementById("image-preview");
+        const selectedFilename = document.getElementById("selected-filename");
+        const fileMessage = document.getElementById("file-message");
+        const removeFileButton = document.getElementById("remove-file");
+        const submitButton = document.getElementById("submit-button");
+        let previewUrl = null;
+        let validImageSelected = false;
+
+        function clearPreview() {
+            validImageSelected = false;
+            submitButton.disabled = true;
+            previewRow.hidden = true;
+            imagePreview.onload = null;
+            imagePreview.onerror = null;
+            imagePreview.removeAttribute("src");
+            selectedFilename.textContent = "";
+
+            if (previewUrl) {
+                URL.revokeObjectURL(previewUrl);
+                previewUrl = null;
+            }
+        }
+
+        function clearSelection() {
+            fileInput.value = "";
+            clearPreview();
+        }
+
+        function showFileMessage(message, isError) {
+            fileMessage.textContent = message;
+            fileMessage.classList.toggle("is-error", isError);
+        }
+
+        function handleFile(file) {
+            clearPreview();
+            showFileMessage("", false);
+
+            if (!file) {
+                return;
+            }
+
+            const allowedExtensions = [".jpg", ".jpeg", ".png"];
+            const allowedTypes = ["image/jpeg", "image/png"];
+            const lowerCaseName = file.name.toLowerCase();
+            const hasAllowedExtension = allowedExtensions.some(function (extension) {
+                return lowerCaseName.endsWith(extension);
+            });
+            const hasAllowedType = !file.type || allowedTypes.includes(file.type);
+
+            if (!hasAllowedExtension || !hasAllowedType) {
+                clearSelection();
+                showFileMessage("That file type is not supported. Choose a JPG, JPEG or PNG image.", true);
+                return;
+            }
+
+            selectedFilename.textContent = file.name;
+            previewRow.hidden = false;
+            previewUrl = URL.createObjectURL(file);
+            const currentPreviewUrl = previewUrl;
+
+            imagePreview.onload = function () {
+                if (previewUrl !== currentPreviewUrl) {
+                    return;
+                }
+
+                validImageSelected = true;
+                submitButton.disabled = false;
+            };
+
+            imagePreview.onerror = function () {
+                if (previewUrl !== currentPreviewUrl) {
+                    return;
+                }
+
+                clearSelection();
+                showFileMessage("This image could not be opened. Please choose a valid JPG, JPEG or PNG image.", true);
+            };
+
+            imagePreview.src = currentPreviewUrl;
+        }
+
+        fileInput.addEventListener("change", function () {
+            handleFile(fileInput.files[0]);
+        });
+
+        removeFileButton.addEventListener("click", function () {
+            clearSelection();
+            showFileMessage("", false);
+            fileInput.focus();
+        });
+
+        uploadForm.addEventListener("submit", function (event) {
+            if (!validImageSelected || !fileInput.files.length) {
+                event.preventDefault();
+                showFileMessage("Choose a supported image and wait for its preview before screening.", true);
+            }
+        });
+
+        ["dragenter", "dragover"].forEach(function (eventName) {
+            dropArea.addEventListener(eventName, function (event) {
+                event.preventDefault();
+                dropArea.classList.add("is-dragging");
+            });
+        });
+
+        dropArea.addEventListener("dragleave", function (event) {
+            if (!event.relatedTarget || !dropArea.contains(event.relatedTarget)) {
+                dropArea.classList.remove("is-dragging");
+            }
+        });
+
+        dropArea.addEventListener("drop", function (event) {
+            event.preventDefault();
+            dropArea.classList.remove("is-dragging");
+            const files = event.dataTransfer.files;
+            if (!files.length) {
+                return;
+            }
+
+            try {
+                const transfer = new DataTransfer();
+                transfer.items.add(files[0]);
+                fileInput.files = transfer.files;
+                handleFile(fileInput.files[0]);
+            } catch {
+                clearSelection();
+                showFileMessage("This browser could not attach the dropped file. Please use Browse files instead.", true);
+            }
+        });
+    </script>
 </body>
 </html>

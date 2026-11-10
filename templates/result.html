@@ -3,27 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Screening Result | AI-Based Fake Document Screening System</title>
+    <meta name="theme-color" content="#f6f5f0">
+    <title>Screening Report | AI-Based Fake Document Screening System</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <main class="page-container">
-        <section class="card result-card">
-            <p class="eyebrow">Screening summary</p>
-            <h1>Document Screening Result</h1>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="AI-Based Fake Document Screening System home">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M6.5 3.75h7l4 4v12.5H6.5a1 1 0 0 1-1-1V4.75a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                        <path d="M13.5 4v4h4M8.5 12h7M8.5 15.5h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <span>AI-Based Fake Document Screening System</span>
+            </a>
+            <nav class="site-nav" aria-label="Main navigation">
+                <a class="nav-link" href="/">New screening</a>
+            </nav>
+        </div>
+    </header>
 
-            <div class="result-section">
-                <h2>File reviewed</h2>
-                <p class="filename">{{ filename }}</p>
-            </div>
+    <main class="report-shell">
+        <section class="report-heading" aria-labelledby="report-title">
+            <p class="eyebrow">Academic document screening</p>
+            <h1 id="report-title">Screening report</h1>
+            <p>Review the screening output and any notes provided for this marksheet.</p>
+        </section>
 
-            <div class="result-section">
-                <h2>Screening result</h2>
-                <p>{{ screening_result }}</p>
-            </div>
+        <article class="report-panel">
+            <header class="report-file">
+                <span class="file-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M6.5 3.75h7l4 4v12.5H6.5a1 1 0 0 1-1-1V4.75a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                        <path d="M13.5 4v4h4M8.5 12h7M8.5 15.5h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <div class="report-file-info">
+                    <span class="file-label">Uploaded document</span>
+                    <p class="result-filename">{{ filename }}</p>
+                </div>
+            </header>
 
-            <div class="result-section">
-                <h2>Warnings</h2>
+            <section class="outcome-section" aria-labelledby="outcome-label">
+                <p class="outcome-label" id="outcome-label">Screening outcome</p>
+                <p class="outcome-value">{{ screening_result }}</p>
+            </section>
+
+            <section class="warnings-section" aria-labelledby="warnings-title">
+                <h2 id="warnings-title">Warnings and notes</h2>
                 {% if warnings %}
                     <ul class="warning-list">
                         {% for warning in warnings %}
@@ -31,18 +60,25 @@
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <p>No warnings were provided.</p>
+                    <p class="no-warnings">No warnings were provided.</p>
                 {% endif %}
-            </div>
+            </section>
 
-            <a class="button button-link" href="/">Upload another document</a>
-
-            <p class="disclaimer">
-                <strong>Disclaimer:</strong> This is preliminary screening only
-                and is not proof of fraud. Results should be reviewed by a
-                qualified person.
-            </p>
-        </section>
+            <footer class="report-footer">
+                <p class="report-disclaimer">
+                    Automated screening is an initial review aid and does not
+                    independently establish that a document is fraudulent.
+                </p>
+                <a class="primary-button report-action" href="/">Screen another document</a>
+            </footer>
+        </article>
     </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>AI-Based Fake Document Screening System</span>
+            <span>Academic project · Preliminary screening aid</span>
+        </div>
+    </footer>
 </body>
 </html>
