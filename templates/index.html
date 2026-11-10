@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Based Fake Document Screening System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="page-container">
+        <section class="card upload-card">
+            <p class="eyebrow">Academic document screening</p>
+            <h1>AI-Based Fake Document Screening System</h1>
+            <p class="intro">
+                Upload an academic marksheet image for an initial review of signs
+                that may need further verification.
+            </p>
+
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <label for="file">Choose a marksheet image</label>
+                <input
+                    type="file"
+                    id="file"
+                    name="file"
+                    accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                    required
+                >
+                <p class="field-help">Supported formats: JPG, JPEG and PNG.</p>
+                <button type="submit" class="button">Screen Document</button>
+            </form>
+
+            <p class="disclaimer">
+                <strong>Disclaimer:</strong> This is preliminary screening only
+                and is not proof of fraud. Results should be reviewed by a
+                qualified person.
+            </p>
+        </section>
+    </main>
+</body>
+</html>

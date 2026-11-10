@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screening Result | AI-Based Fake Document Screening System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="page-container">
+        <section class="card result-card">
+            <p class="eyebrow">Screening summary</p>
+            <h1>Document Screening Result</h1>
+
+            <div class="result-section">
+                <h2>File reviewed</h2>
+                <p class="filename">{{ filename }}</p>
+            </div>
+
+            <div class="result-section">
+                <h2>Screening result</h2>
+                <p>{{ screening_result }}</p>
+            </div>
+
+            <div class="result-section">
+                <h2>Warnings</h2>
+                {% if warnings %}
+                    <ul class="warning-list">
+                        {% for warning in warnings %}
+                            <li>{{ warning }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No warnings were provided.</p>
+                {% endif %}
+            </div>
+
+            <a class="button button-link" href="/">Upload another document</a>
+
+            <p class="disclaimer">
+                <strong>Disclaimer:</strong> This is preliminary screening only
+                and is not proof of fraud. Results should be reviewed by a
+                qualified person.
+            </p>
+        </section>
+    </main>
+</body>
+</html>
