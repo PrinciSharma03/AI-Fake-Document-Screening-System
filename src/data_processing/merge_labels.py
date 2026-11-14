@@ -5,8 +5,7 @@ ROOT = Path(__file__).resolve().parents[2]
 RAW = ROOT / "data" / "raw"
 
 # 1. Read both label files and stack them into one table
-parts = [pd.read_csv(RAW / "labels_certificate.csv"),
-         pd.read_csv(RAW / "labels_id_card.csv")]
+parts = [pd.read_csv(RAW / "labels_marksheet.csv")]
 labels = pd.concat(parts, ignore_index=True)
 
 # 2. Sanity checks
