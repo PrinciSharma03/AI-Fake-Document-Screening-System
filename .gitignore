@@ -13,4 +13,4 @@ models/*
 
 # Share labels and the final model
 !data/raw/labels.csv
-!models/best_model.joblib
+!models/screening_model.joblib
