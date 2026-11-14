@@ -27,3 +27,41 @@ Generator settings: BG_EDIT = BG, forged text the same size as the original
 
 CV confusion matrices: LR [[33 27] [35 25]], RF [[27 33] [31 29]]
 Conclusion: With the generator artifacts removed, both models are at chance (about 48%). The 5 whole-page features cannot detect small local edits. Version A's 72.5% came from artifacts in my forgery code.
+## E0: baseline, 5 whole-page features (artifact-free data)
+Same split for all models (hold-out 25% by group, plus grouped 5-fold CV). Full numbers in reports/results_table.csv.
+
+| Model | Hold-out acc (30 rows) | CV acc | CV precision | CV recall | CV F1 | CV confusion [[TN FP] [FN TP]] |
+|---|---|---|---|---|---|---|
+| Logistic Regression | 0.500 | 0.483 | 0.481 | 0.417 | 0.446 | [[33 27] [35 25]] |
+| Random Forest | 0.533 | 0.467 | 0.468 | 0.483 | 0.475 | [[27 33] [31 29]] |
+| SVM | 0.467 | 0.500 | 0.500 | 0.433 | 0.464 | [[34 26] [34 26]] |
+
+Conclusion: all three models are at chance level. Changing the algorithm does not help. The 5 whole-page features cannot see small local edits.
+## E1: 40 region-based features only (name, roll no, 5 subject marks, total, percentage, result)
+Features: background brightness, text darkness, local noise, edge share per region.
+
+| Model | Hold-out acc (30) | CV acc | CV precision | CV recall | CV F1 | CV confusion [[TN FP] [FN TP]] |
+|---|---|---|---|---|---|---|
+| Logistic Regression | 0.600 | 0.483 | 0.485 | 0.550 | 0.516 | [[25 35] [27 33]] |
+| Random Forest | 0.500 | 0.492 | 0.491 | 0.467 | 0.479 | [[31 29] [32 28]] |
+| SVM | 0.533 | 0.492 | 0.490 | 0.417 | 0.450 | [[34 26] [35 25]] |
+
+## E2: 5 baseline features + 40 region features
+
+| Model | Hold-out acc (30) | CV acc | CV precision | CV recall | CV F1 | CV confusion [[TN FP] [FN TP]] |
+|---|---|---|---|---|---|---|
+| Logistic Regression | 0.533 | 0.508 | 0.507 | 0.583 | 0.543 | [[26 34] [25 35]] |
+| Random Forest | 0.633 | 0.533 | 0.531 | 0.567 | 0.548 | [[30 30] [26 34]] |
+| SVM | 0.533 | 0.500 | 0.500 | 0.400 | 0.444 | [[36 24] [36 24]] |
+
+Conclusion: no improvement. All CV scores are at chance (47% to 53%). The hold-out score of 0.633 is noise on 30 rows and is not claimed as an improvement. In this dataset the forged patch is drawn with the same font, size and colour as the original, so region measurements have no difference to find. This is a limitation of the synthetic data.
+## Dataset audit (src/data_processing/audit_dataset.py)
+- Balance: 60 genuine, 60 manipulated
+- Groups: 60, each with 1 genuine original and 1 manipulated copy; 0 with a wrong structure
+- Labels vs file names: 0 mismatches; labelled files missing on disk: 0
+- Exact duplicate images: 0
+- Format and size: all images PNG, 1000 x 1300, RGB, in both classes
+- Leakage: 0 groups shared between train and test (hold-out and 5-fold)
+- features.csv: 120 rows, 0 missing values
+Result: ALL CHECKS PASSED
+Limit: the audit checks structure only. It cannot show that the synthetic forgeries resemble real ones.
